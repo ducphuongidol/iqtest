@@ -1,7 +1,7 @@
 import { Question } from "@/types";
 
 export const questionBank: Question[] = [
-  // --- LOGIC (20 câu - Cực khó & Bẫy) ---
+  // --- LOGIC (20 câu) ---
   { id: 1, question: "Phòng nào an toàn nhất cho tử tù: Phòng lửa rực, Phòng sát thủ nạp đạn, hay Phòng sư tử nhịn đói 3 năm?", options: ["Lửa", "Sát thủ", "Sư tử", "Không phòng nào"], correctAnswer: 2, category: "logic" },
   { id: 2, question: "Bố mẹ có 6 con trai, mỗi con trai có 1 em gái. Gia đình có bao nhiêu người con?", options: ["7", "12", "9", "13"], correctAnswer: 0, category: "logic" },
   { id: 3, question: "Ốc sên leo cột 10m. Ngày leo 3m, đêm tụt 2m. Sau mấy ngày lên đỉnh?", options: ["10", "9", "8", "7"], correctAnswer: 2, category: "logic" },
@@ -23,7 +23,7 @@ export const questionBank: Question[] = [
   { id: 19, question: "Làm sao để không buồn ngủ khi thức đêm?", options: ["Uống cafe", "Ngủ ngày", "Nhắm mắt", "Mở mắt"], correctAnswer: 3, category: "logic" },
   { id: 20, question: "1 = 5, 2 = 25, 3 = 125, 4 = 625, vậy 5 = ?", options: ["3125", "1", "15625", "25"], correctAnswer: 1, category: "logic" },
 
-  // --- MATH (20 câu - Lắt léo) ---
+  // --- MATH (20 câu) ---
   { id: 21, question: "Nếu 1+4=5, 2+5=12, 3+6=21, thì 8+11 = ?", options: ["19", "40", "96", "117"], correctAnswer: 2, category: "math" },
   { id: 22, question: "Giày + Tất = 1tr1. Giày đắt hơn tất 1tr. Tất giá bao nhiêu?", options: ["100k", "50k", "10k", "1tr"], correctAnswer: 1, category: "math" },
   { id: 23, question: "Chia 30 cho 1/2 rồi cộng thêm 10. Kết quả?", options: ["25", "40", "70", "15"], correctAnswer: 2, category: "math" },
@@ -45,21 +45,65 @@ export const questionBank: Question[] = [
   { id: 39, question: "Số nào tiếp theo: 2, 3, 5, 8, 13, 21, ___?", options: ["30", "34", "35", "40"], correctAnswer: 1, category: "math" },
   { id: 40, question: "Một khối 3x3x3 sơn đỏ các mặt, cắt ra 27 khối 1x1x1. Có mấy khối không bị sơn?", options: ["0", "1", "3", "6"], correctAnswer: 1, category: "math" },
 
-  // --- PATTERN & WORD (Tiếp tục để đủ 100...) ---
-  // (Tôi đã tích hợp các câu đố hay nhất vào bộ câu hỏi ngẫu nhiên này)
-  ...Array.from({ length: 60 }, (_, i) => ({
-    id: i + 41,
-    question: `Câu đố tư duy số ${i + 41}: Nếu A > B và B > C, thì khẳng định nào sai?`,
-    options: ["A > C", "C < A", "C > A", "B < A"],
-    correctAnswer: 2,
-    category: "logic"
-  })).map((q, i) => {
-    // Tùy biến một số câu cụ thể trong danh sách 60 câu còn lại
-    if (i === 0) return { ...q, question: "Dãy số: 2, 6, 12, 20, 30, ___?", options: ["40", "42", "44", "46"], correctAnswer: 1 };
-    if (i === 1) return { ...q, question: "Ký tự tiếp theo: O, T, T, F, F, S, S, E, N, ___?", options: ["T", "E", "O", "S"], correctAnswer: 0 };
-    if (i === 2) return { ...q, question: "Củi : Lửa :: Sách : ___", options: ["Giấy", "Tư tưởng", "Trí tuệ", "Học vấn"], correctAnswer: 1 };
-    if (i === 3) return { ...q, question: "Hôm nay là Thứ Tư, 100 ngày nữa là thứ mấy?", options: ["Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"], correctAnswer: 1 };
-    if (i === 4) return { ...q, question: "Hình lập phương có bao nhiêu đỉnh?", options: ["6", "8", "10", "12"], correctAnswer: 1 };
-    return q;
-  })
+  // --- PATTERN, WORD, SEQUENCE, VISUAL (60 câu tiếp theo) ---
+  { id: 41, question: "Dãy số: 2, 6, 12, 20, 30, ___?", options: ["40", "42", "44", "46"], correctAnswer: 1, category: "pattern" },
+  { id: 42, question: "Ký tự tiếp theo: O, T, T, F, F, S, S, E, N, ___?", options: ["T", "E", "O", "S"], correctAnswer: 0, category: "sequence" },
+  { id: 43, question: "Củi : Lửa :: Sách : ___", options: ["Giấy", "Tư tưởng", "Trí tuệ", "Học vấn"], correctAnswer: 1, category: "word" },
+  { id: 44, question: "Hôm nay là Thứ Tư, 100 ngày nữa là thứ mấy?", options: ["Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"], correctAnswer: 1, category: "sequence" },
+  { id: 45, question: "Hình lập phương có bao nhiêu đỉnh?", options: ["6", "8", "10", "12"], correctAnswer: 1, category: "visual" },
+  { id: 46, question: "Điền số: 1, 4, 9, 16, 25, ___?", options: ["30", "35", "36", "49"], correctAnswer: 2, category: "pattern" },
+  { id: 47, question: "Mặt trời : Ban ngày :: Mặt trăng : ___", options: ["Ngôi sao", "Bóng tối", "Ban đêm", "Bầu trời"], correctAnswer: 2, category: "word" },
+  { id: 48, question: "Tìm x: 2x + 7 = 15", options: ["3", "4", "5", "8"], correctAnswer: 1, category: "math" },
+  { id: 49, question: "Hình ngũ giác có bao nhiêu cạnh?", options: ["4", "5", "6", "7"], correctAnswer: 1, category: "visual" },
+  { id: 50, question: "Tháng Một, Tháng Tư, Tháng Bảy, ___?", options: ["Tháng Tám", "Tháng Chín", "Tháng Mười", "Tháng Mười Một"], correctAnswer: 2, category: "sequence" },
+  { id: 51, question: "Kiến trúc sư : Tòa nhà :: Tác giả : ___", options: ["Bút", "Câu chuyện", "Sách", "Từ ngữ"], correctAnswer: 2, category: "word" },
+  { id: 52, question: "Tìm số còn thiếu: 3, 6, 12, ___, 48", options: ["18", "20", "24", "30"], correctAnswer: 2, category: "pattern" },
+  { id: 53, question: "Góc của hình vuông là bao nhiêu độ?", options: ["45", "90", "180", "360"], correctAnswer: 1, category: "visual" },
+  { id: 54, question: "Dãy: A, C, E, G, ___?", options: ["H", "I", "J", "K"], correctAnswer: 1, category: "sequence" },
+  { id: 55, question: "Nóng : Lạnh :: Nhanh : ___", options: ["Gấp gáp", "Chậm chạp", "Tốc độ", "Chạy"], correctAnswer: 1, category: "word" },
+  { id: 56, question: "Dãy số: 5, 10, 20, 40, ___?", options: ["60", "70", "80", "100"], correctAnswer: 2, category: "pattern" },
+  { id: 57, question: "Cái gì có chân mà không đi?", options: ["Con chó", "Cái bàn", "Con suối", "Cái bóng"], correctAnswer: 1, category: "logic" },
+  { id: 58, question: "1 tá bằng bao nhiêu cái?", options: ["10", "12", "14", "16"], correctAnswer: 1, category: "math" },
+  { id: 59, question: "Chữ cái nào đứng sau M 3 vị trí?", options: ["N", "O", "P", "Q"], correctAnswer: 2, category: "sequence" },
+  { id: 60, question: "Hình tròn có bao nhiêu cạnh?", options: ["0", "1", "2", "Vô số"], correctAnswer: 0, category: "visual" },
+  { id: 61, question: "Mùa Xuân, Mùa Hạ, Mùa Thu, ___?", options: ["Mùa Mưa", "Mùa Tuyết", "Mùa Đông", "Mùa Lạnh"], correctAnswer: 2, category: "sequence" },
+  { id: 62, question: "Kim tự tháp đáy vuông có mấy mặt?", options: ["3", "4", "5", "6"], correctAnswer: 2, category: "visual" },
+  { id: 63, question: "25% của 200 là?", options: ["25", "50", "75", "100"], correctAnswer: 1, category: "math" },
+  { id: 64, question: "Con chó : Cún con :: Con mèo : ___", options: ["Hổ con", "Cừu non", "Mèo con", "Ngựa con"], correctAnswer: 2, category: "word" },
+  { id: 65, question: "Số tiếp theo: 0, 1, 3, 6, 10, ___?", options: ["12", "14", "15", "18"], correctAnswer: 2, category: "pattern" },
+  { id: 66, question: "Bác sĩ : Bệnh viện :: Giáo viên : ___", options: ["Thư viện", "Phòng học", "Trường học", "Đại học"], correctAnswer: 2, category: "word" },
+  { id: 67, question: "7 nhân 8 bằng?", options: ["54", "56", "58", "62"], correctAnswer: 1, category: "math" },
+  { id: 68, question: "Z, Y, X, W, ___?", options: ["A", "B", "C", "V"], correctAnswer: 3, category: "sequence" },
+  { id: 69, question: "Hình lục giác có mấy góc?", options: ["5", "6", "7", "8"], correctAnswer: 1, category: "visual" },
+  { id: 70, question: "Nghìn tỷ, Tỷ, Triệu, Nghìn, ___?", options: ["Trăm", "Tá", "Mười", "Một"], correctAnswer: 0, category: "sequence" },
+  { id: 71, question: "Khối lập phương có mấy mặt?", options: ["4", "6", "8", "12"], correctAnswer: 1, category: "visual" },
+  { id: 72, question: "Số nào là số nguyên tố: 9, 15, 17, 21?", options: ["9", "15", "17", "21"], correctAnswer: 2, category: "math" },
+  { id: 73, question: "Bút : Viết :: Chổi : ___", options: ["Lau", "Quét", "Vẽ", "Tô"], correctAnswer: 1, category: "word" },
+  { id: 74, question: "Dãy: 100, 90, 81, 73, ___?", options: ["65", "66", "67", "68"], correctAnswer: 1, category: "pattern" },
+  { id: 75, question: "Găng tay : Bàn tay :: Giày : ___", options: ["Bàn chân", "Tất", "Cẳng chân", "Ngón chân"], correctAnswer: 0, category: "word" },
+  { id: 76, question: "Số nào chia hết cho 3: 121, 122, 123, 124?", options: ["121", "122", "123", "124"], correctAnswer: 2, category: "math" },
+  { id: 77, question: "Đồng hồ 6 giờ đúng, góc giữa 2 kim là?", options: ["90", "120", "180", "360"], correctAnswer: 2, category: "visual" },
+  { id: 78, question: "Thứ Hai, Thứ Tư, Thứ Sáu, ___?", options: ["Thứ Bảy", "Chủ Nhật", "Thứ Hai", "Thứ Ba"], correctAnswer: 1, category: "sequence" },
+  { id: 79, question: "Giai thừa của 4 (4!) là?", options: ["12", "16", "24", "48"], correctAnswer: 2, category: "math" },
+  { id: 80, question: "Yếu : Mạnh :: Tối : ___", options: ["Đêm", "Bóng râm", "Rực rỡ", "Sáng"], correctAnswer: 3, category: "word" },
+  { id: 81, question: "3, 9, 27, 81, ___?", options: ["162", "243", "324", "729"], correctAnswer: 1, category: "pattern" },
+  { id: 82, question: "Hành tinh thứ 3 từ Mặt trời?", options: ["Sao Hỏa", "Trái Đất", "Sao Kim", "Sao Thủy"], correctAnswer: 1, category: "sequence" },
+  { id: 83, question: "Hình bát giác có mấy cạnh?", options: ["6", "7", "8", "9"], correctAnswer: 2, category: "visual" },
+  { id: 84, question: "Số 0.75 viết dạng phân số?", options: ["1/4", "2/3", "3/4", "7/9"], correctAnswer: 2, category: "math" },
+  { id: 85, question: "Chương : Sách :: Cảnh : ___", options: ["Phim", "Diễn viên", "Vở kịch", "Câu chuyện"], correctAnswer: 0, category: "word" },
+  { id: 86, question: "7, 14, 21, 28, ___?", options: ["32", "35", "36", "42"], correctAnswer: 1, category: "pattern" },
+  { id: 87, question: "Bán kính r=5, chu vi hình tròn?", options: ["15.7", "31.4", "62.8", "78.5"], correctAnswer: 1, category: "math" },
+  { id: 88, question: "Nguyên âm trong tiếng Anh: A, E, I, O, ___?", options: ["P", "Q", "U", "Y"], correctAnswer: 2, category: "sequence" },
+  { id: 89, question: "Hình lăng trụ tam giác có mấy mặt?", options: ["3", "4", "5", "6"], correctAnswer: 2, category: "visual" },
+  { id: 90, question: "Hoa : Cánh hoa :: Cây : ___", options: ["Rễ", "Lá", "Cành", "Vỏ"], correctAnswer: 1, category: "word" },
+  { id: 91, question: "1, 2, 4, 7, 11, 16, ___?", options: ["20", "21", "22", "25"], correctAnswer: 2, category: "pattern" },
+  { id: 92, question: "Góc bẹt bằng bao nhiêu độ?", options: ["90", "180", "270", "360"], correctAnswer: 1, category: "visual" },
+  { id: 93, question: "Số la mã XII là số mấy?", options: ["10", "11", "12", "13"], correctAnswer: 2, category: "math" },
+  { id: 94, question: "Hôm nay là Thứ Ba, ngày mai là thứ mấy?", options: ["Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"], correctAnswer: 0, category: "sequence" },
+  { id: 95, question: "Đại dương : Cá :: Bầu trời : ___", options: ["Mây", "Chim", "Máy bay", "Sao"], correctAnswer: 1, category: "word" },
+  { id: 96, question: "Dãy: 1, 1, 2, 3, 5, 8, ___?", options: ["11", "12", "13", "14"], correctAnswer: 2, category: "pattern" },
+  { id: 97, question: "Hình thoi có mấy cặp cạnh song song?", options: ["1", "2", "3", "4"], correctAnswer: 1, category: "visual" },
+  { id: 98, question: "1km bằng bao nhiêu mét?", options: ["100", "1000", "10000", "10"], correctAnswer: 1, category: "math" },
+  { id: 99, question: "Sáng, Trưa, Chiều, ___?", options: ["Tối", "Đêm", "Khuya", "Mờ sáng"], correctAnswer: 0, category: "sequence" },
+  { id: 100, question: "Bánh : Ngọt :: Chanh : ___", options: ["Cay", "Đắng", "Chua", "Mặn"], correctAnswer: 2, category: "word" },
 ];
