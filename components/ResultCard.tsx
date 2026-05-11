@@ -20,7 +20,7 @@ export default function ResultCard({ result, onRetake }: ResultCardProps) {
     hasRunRef.current = true;
 
     // Count-up animation for IQ
-    let start = 150;
+    const start = 150;
     const end = result.fakeIQ;
     const duration = 2500;
     const startTime = Date.now();

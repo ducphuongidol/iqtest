@@ -3,16 +3,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
 
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  duration: number;
-  delay: number;
-  emoji: string;
-}
-
 const EMOJIS = ["✨", "💕", "🌸", "💫", "⭐", "🌷", "💖", "🦋"];
 
 export default function FloatingParticles() {
