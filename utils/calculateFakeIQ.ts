@@ -43,6 +43,15 @@ const IQ_BANDS: IQBand[] = [
   },
 ];
 
+// Genius Band dành riêng cho "Admin"
+const GENIUS_BAND: IQBand = {
+  min: 110,
+  max: 120,
+  message: "Thiên tài xuất chúng! Bạn chính là bộ não của thế kỷ. 🧠✨",
+  analysis: "Mọi chỉ số thần kinh đều vượt ngưỡng. Bạn sở hữu khả năng phân tích đa chiều và logic tiệm cận mức hoàn hảo. Một học sinh lớp 5? Không, bạn là giáo sư của họ!",
+  emoji: "👑",
+};
+
 const SHARE_TEXTS = [
   "Vừa làm bài Test IQ xong và kết quả chứng minh mình có sức hút đến mức nguy hiểm 💀✨",
   "Kết quả Test IQ đã có và mình quyết định coi đây là một nét tính cách đặc biệt 🌸",
@@ -52,28 +61,42 @@ const SHARE_TEXTS = [
 ];
 
 export function calculateFakeIQ(correctAnswers: number): TestResult {
-  let band: IQBand;
-
-  if (correctAnswers <= 5) {
-    band = IQ_BANDS[0];
-  } else if (correctAnswers <= 10) {
-    band = IQ_BANDS[1];
-  } else if (correctAnswers <= 15) {
-    band = IQ_BANDS[2];
-  } else {
-    band = IQ_BANDS[3];
+  // Kiểm tra "cửa sau" bí mật qua URL
+  let isGeniusMode = false;
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    // Bạn chỉ cần thêm ?v=1 vào cuối URL để kích hoạt
+    isGeniusMode = params.get("v") === "1";
   }
 
-  const fakeIQ =
-    Math.floor(Math.random() * (band.max - band.min + 1)) + band.min;
+  let band: IQBand;
+  let fakeIQ: number;
 
-  const shareText =
-    SHARE_TEXTS[Math.floor(Math.random() * SHARE_TEXTS.length)];
+  if (isGeniusMode) {
+    band = GENIUS_BAND;
+    fakeIQ = Math.floor(Math.random() * (band.max - band.min + 1)) + band.min;
+  } else {
+    // Logic bình thường cho mọi người
+    if (correctAnswers <= 5) {
+      band = IQ_BANDS[0];
+    } else if (correctAnswers <= 10) {
+      band = IQ_BANDS[1];
+    } else if (correctAnswers <= 15) {
+      band = IQ_BANDS[2];
+    } else {
+      band = IQ_BANDS[3];
+    }
+    fakeIQ = Math.floor(Math.random() * (band.max - band.min + 1)) + band.min;
+  }
+
+  const shareText = isGeniusMode 
+    ? "Vừa làm bài Test IQ và mình chính thức là một thiên tài! 🧠🔥"
+    : SHARE_TEXTS[Math.floor(Math.random() * SHARE_TEXTS.length)];
 
   return {
-    score: Math.round((correctAnswers / 20) * 100),
+    score: isGeniusMode ? 100 : Math.round((correctAnswers / 20) * 100),
     totalQuestions: 20,
-    correctAnswers,
+    correctAnswers: isGeniusMode ? 20 : correctAnswers,
     fakeIQ,
     message: band.message,
     analysis: band.analysis,
