@@ -1,103 +1,252 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { AnimatePresence, motion } from "framer-motion";
+import FloatingParticles from "@/components/FloatingParticles";
+import ProgressBar from "@/components/ProgressBar";
+import QuestionCard from "@/components/QuestionCard";
+import LoadingScreen from "@/components/LoadingScreen";
+import ResultCard from "@/components/ResultCard";
+import Button from "@/components/ui/Button";
+import { useTest } from "@/hooks/useTest";
+
+// ─── Landing Hero ────────────────────────────────────────────────────────────
+function LandingSection({ onStart }: { onStart: () => void }) {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className="flex flex-col items-center justify-center min-h-dvh px-6 py-20 text-center"
+    >
+      {/* Small Badge */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mb-10 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-pink-200/60 text-[10px] uppercase tracking-[0.3em] font-bold"
+      >
+        Neural Assessment v2.0
+      </motion.div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* Main Title - Increased spacing and cleaner look */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="space-y-4 mb-12"
+      >
+        <h1
+          className="text-5xl md:text-7xl font-black tracking-tight"
+          style={{ fontFamily: "'Outfit', sans-serif" }}
+        >
+          <span className="text-white">Ai </span>
+          <span className="gradient-text">Thông Minh Hơn</span>
+          <br />
+          <span className="text-white">Học Sinh Lớp 5?</span>
+        </h1>
+        <p className="text-white/40 text-base md:text-lg max-w-xl mx-auto font-medium leading-relaxed">
+          Bài kiểm tra khoa học tối thượng dành cho những{" "}
+          <span className="text-pink-300/60 italic font-semibold">thiên tài vô tri.</span>
+        </p>
+      </motion.div>
+
+      {/* Stats - More minimal and airy */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="flex gap-12 mb-20"
+      >
+        {[
+          { label: "CÂU HỎI", value: "20" },
+          { label: "PHÚT", value: "~5" },
+        ].map((s) => (
+          <div key={s.label} className="flex flex-col items-center">
+            <span className="text-white text-2xl font-bold tracking-tight">{s.value}</span>
+            <span className="text-white/20 text-[10px] font-bold tracking-[0.2em] mt-1">{s.label}</span>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* CTA Button - Huge and focused */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <Button
+          id="start-test-btn"
+          variant="primary"
+          size="lg"
+          onClick={onStart}
+          className="relative text-xl px-12 py-6 font-bold tracking-wide rounded-3xl"
+        >
+          Bắt Đầu Kiểm Tra
+        </Button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── Test Section ─────────────────────────────────────────────────────────────
+function TestSection({
+  currentQuestion,
+  currentIndex,
+  totalQuestions,
+  progress,
+  selectedAnswer,
+  onAnswer,
+  onQuit,
+}: {
+  currentQuestion: ReturnType<typeof useTest>["currentQuestion"];
+  currentIndex: number;
+  totalQuestions: number;
+  progress: number;
+  selectedAnswer: number | null;
+  onAnswer: (i: number) => void;
+  onQuit: () => void;
+}) {
+  if (!currentQuestion) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -40 }}
+      className="min-h-dvh px-4 py-8 flex flex-col max-w-2xl mx-auto"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">🧠</span>
+          <span
+            className="text-white font-bold text-lg hidden sm:block"
+            style={{ fontFamily: "'Outfit', sans-serif" }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Thử Thách IQ
+          </span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={onQuit}
+          className="text-white/30 hover:text-white/60 text-sm transition-colors px-3 py-1 rounded-lg hover:bg-white/5"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          ✕ Thoát
+        </button>
+      </div>
+
+      {/* Progress */}
+      <div className="mb-8">
+        <ProgressBar
+          current={currentIndex + 1}
+          total={totalQuestions}
+          percentage={progress}
+        />
+      </div>
+
+      {/* Question */}
+      <div className="flex-1">
+        <QuestionCard
+          question={currentQuestion}
+          questionNumber={currentIndex + 1}
+          selectedAnswer={selectedAnswer}
+          onAnswer={onAnswer}
+        />
+      </div>
+
+      {/* Bottom hint */}
+      <motion.p
+        className="text-center text-white/25 text-xs mt-6"
+        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        Chọn một đáp án để tự động tiếp tục
+      </motion.p>
+    </motion.div>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
+export default function HomePage() {
+  const {
+    phase,
+    currentQuestion,
+    currentIndex,
+    questions,
+    result,
+    selectedAnswer,
+    startTest,
+    answerQuestion,
+    resetTest,
+    progress,
+  } = useTest();
+
+  return (
+    <main className="relative min-h-dvh">
+      <FloatingParticles />
+
+      <div className="relative z-10">
+        <AnimatePresence mode="wait">
+          {phase === "landing" && (
+            <motion.div key="landing" className="w-full flex justify-center">
+              <LandingSection onStart={startTest} />
+            </motion.div>
+          )}
+
+          {phase === "test" && (
+            <motion.div key="test" className="w-full flex justify-center">
+              <TestSection
+                currentQuestion={currentQuestion}
+                currentIndex={currentIndex}
+                totalQuestions={questions.length}
+                progress={progress}
+                selectedAnswer={selectedAnswer}
+                onAnswer={answerQuestion}
+                onQuit={resetTest}
+              />
+            </motion.div>
+          )}
+
+          {phase === "loading" && (
+            <motion.div
+              key="loading"
+              className="min-h-dvh w-full flex items-center justify-center px-4"
+            >
+              <LoadingScreen />
+            </motion.div>
+          )}
+
+          {phase === "result" && result && (
+            <motion.div
+              key="result"
+              className="min-h-dvh w-full px-6 py-12 flex flex-col items-center justify-center"
+            >
+              <div className="w-full max-w-lg">
+                <ResultCard result={result} onRetake={resetTest} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Grand Footer */}
+      <footer className="relative z-10 pb-8 pt-4 text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="inline-flex flex-col items-center gap-2 group cursor-default"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <div className="h-[1px] w-12 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent mb-2 group-hover:w-24 transition-all duration-500" />
+          <h3 className="text-sm font-medium tracking-tight text-white/40 group-hover:text-white/60 transition-colors duration-300">
+            Designed by <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300 font-bold">Phuong Nguyen</span>
+          </h3>
+          <div className="flex items-center gap-1 mt-1">
+            <span className="w-1 h-1 rounded-full bg-pink-500/40 animate-pulse" />
+            <span className="w-1 h-1 rounded-full bg-purple-500/40 animate-pulse delay-75" />
+            <span className="w-1 h-1 rounded-full bg-blue-500/40 animate-pulse delay-150" />
+          </div>
+        </motion.div>
       </footer>
-    </div>
+    </main>
   );
 }
