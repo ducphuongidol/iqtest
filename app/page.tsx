@@ -228,25 +228,7 @@ export default function HomePage() {
         </AnimatePresence>
       </div>
 
-      {/* Grand Footer */}
-      <footer className="relative z-10 pb-8 pt-4 text-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="inline-flex flex-col items-center gap-2 group cursor-default"
-        >
-          <div className="h-[1px] w-12 bg-gradient-to-r from-transparent via-pink-400/50 to-transparent mb-2 group-hover:w-24 transition-all duration-500" />
-          <h3 className="text-sm font-medium tracking-tight text-white/40 group-hover:text-white/60 transition-colors duration-300">
-            Designed by <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300 font-bold">Phuong Nguyen</span>
-          </h3>
-          <div className="flex items-center gap-1 mt-1">
-            <span className="w-1 h-1 rounded-full bg-pink-500/40 animate-pulse" />
-            <span className="w-1 h-1 rounded-full bg-purple-500/40 animate-pulse delay-75" />
-            <span className="w-1 h-1 rounded-full bg-blue-500/40 animate-pulse delay-150" />
-          </div>
-        </motion.div>
-      </footer>
+
     </main>
   );
 }
